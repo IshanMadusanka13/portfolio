@@ -5,7 +5,6 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { HiOutlineChevronDoubleUp } from "react-icons/hi";
-import ContactImg from "public/assets/contact.jpg";
 import { RotateLoader } from "react-spinners";
 import emailjs from "@emailjs/browser";
 import { emConfig } from "src/utils/constants";
@@ -105,7 +104,9 @@ const Contact = () => {
 								<div>
 									<Image
 										className="rounded-xl hover:scale-105 ease-in duration-300"
-										src={ContactImg}
+										src="/assets/contact.jpg"
+										width={1000}
+										height={800}
 										alt="/"
 										loading="lazy"
 									/>

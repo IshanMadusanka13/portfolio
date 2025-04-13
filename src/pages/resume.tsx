@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { FaGithub, FaLinkedinIn, FaDownload } from "react-icons/fa";
-import ResumeShot from "public/assets/Ishan Resume.jpg";
 
 const ResumePdf = () => {
 	const resumePdfLink = "/assets/Ishan Resume.pdf";
@@ -17,7 +16,7 @@ const ResumePdf = () => {
 						</div>
 					</a>
 				</div>
-				<Image src={ResumeShot} className="rounded-xl " alt="/" loading="lazy" />
+				<Image src="/assets/Ishan Resume.jpg" width={1000} height={1200} className="rounded-xl " alt="/" loading="lazy" />
 			</div>
 		</>
 	);

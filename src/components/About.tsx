@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import AboutImg from "public/assets/about.jpg";
 
 const About = () => {
 	return (
@@ -15,7 +14,7 @@ const About = () => {
 					developer and tech professional.
 					</p>
 					<p className="py-2 text-gray-600 text-lg">
-					I'm good at developing robust and scalable back-end systems, with a focus on building APIs, managing 
+					Im good at developing robust and scalable back-end systems, with a focus on building APIs, managing 
 					databases, and integrating with front-end applications. I’m passionate about clean architecture, performance 
 					optimization, and writing maintainable code. While my core strengths lie in technologies like Node.js and 
 					Spring Boot, I’m always eager to explore new frameworks and languages to expand my capabilities.
@@ -23,7 +22,7 @@ const About = () => {
 				</div>
 				<div className="w-full h-auto m-auto shadow-xl shadow-gray-400 rounded-xl flex items-center justify-center p-4 hover:scale-105 ease-in duration-300">
 					<div data-aos="fade-up" data-aos-duration="1000">
-						<Image src={AboutImg} className="rounded-xl " alt="/" height={500} loading="lazy" />
+						<Image src="/assets/about.jpg" width={320} className="rounded-xl " alt="/" height={450} loading="lazy" />
 					</div>
 				</div>
 			</div>

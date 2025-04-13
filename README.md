@@ -1,46 +1,53 @@
-## Next JS Portfolio
+## 📁 Project: Portfolio Website  
+🧑 Author: [Ishan Madusanka](https://github.com/IshanMadusanka13)
 
-## [Live Site Here](https://nosarumen-imuentinyan-next-js-portfolio.vercel.app/)
+---
 
+### 📜 Description
+A responsive and minimal personal portfolio to showcase projects,  
+skills, and contact information. Built with a modern frontend stack.
 
-🚀 Introducing my Next.js Portfolio 🌟
+---
 
-Welcome to my interactive and visually stunning portfolio built with Next.js!
+### 🛠 Tech Stack
+- Next.js  
+- Tailwind CSS
+- Deployed on Vercel
 
+---
 
-<br>
+### 🎯 Features
+- 💼 Project showcase with images and links  
+- 🎓 Skills & Education section  
+- 📄 Resume download  
+- 📧 Contact form   
+- 📱 Fully responsive  
 
+---
 
+### 🚀 Getting Started
 
-## 🌟 Key Features:
+```bash
+# 1. Clone the repo
+git clone https://github.com/IshanMadusanka13/portfolio.git
 
-1. 🎨 Stunning Visuals: Explore a carefully crafted design that showcases my projects, skills, and experiences in a visually engaging manner. Sleek animations and a responsive layout ensure a seamless experience on all devices.
+# 2. Install dependencies
+npm install
 
-2. 👩‍💻 Dynamic Projects: Check out my latest web development projects, from websites to web applications. Each project is detailed with descriptions, technologies used, and live demos, giving you a glimpse of my technical expertise.
+# 3. Start the development server
+npm run dev
+```
 
-3. 📚 Tech Stack: Discover the technologies and tools I'm proficient in, from Typescript and React to Next.js, Javascript, and more.
+### 🌐 Live Preview
+👉 [Live View](https://ishan.vercel.com)
 
-4. 🌐 Contact and Connect: Get in touch with me through the integrated contact form. I'm open to discussing new opportunities.
+---
 
+### 📬 Contact Me
+- 📧 Email: madusankaishan13@gmail.com  
+- 🔗 LinkedIn: [View LinkedIn](https://www.linkedin.com/in/ishan-madusanka-b4b2a5256)  
+- 🐙 GitHub: [View Github](https://github.com/IshanMadusanka13)
 
-<br>
+---
 
-
-
-## 👨‍💻 Technologies used for this application
-
-1. Next.js.
-2. TypeScript.
-3. Tailwind CSS.
-4. AOS Library for Smooth Animations.
-5. Email JS Library.
-
-
-![1](https://github.com/Sir-Rumeh/next-js-portfolio/assets/95687544/0b6d8fd3-b633-4d41-9add-2f401ea07cde)
-
-![2](https://github.com/Sir-Rumeh/next-js-portfolio/assets/95687544/27806477-a25e-4635-9095-4024260e9fcd)
-
-![3](https://github.com/Sir-Rumeh/next-js-portfolio/assets/95687544/bb36cf03-7436-45d8-8826-872182ae8385)
-
-![4](https://github.com/Sir-Rumeh/next-js-portfolio/assets/95687544/3be2ba94-6ddd-473d-bb78-044246e56a64)
-
+> ✨ *Keep building. Keep learning. Keep growing.*
