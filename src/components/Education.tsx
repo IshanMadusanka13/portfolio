@@ -1,26 +1,9 @@
 import React from "react";
 import EducationDetails from "./EducationalDetails";
 import BasicTabs from "./Tabs";
+import { education } from "../utils/constants";
 
 const Education = () => {
-	const sliitEducation = {
-		institutionName: "SLIIT University",
-		degree: "BSc (Hons) in Software Engineering",
-		duration: "2022 – Present",
-		highlights: [
-			"Currently On the Third Year of my Degree",
-		],
-	};
-
-    const schoolEducation = {
-		institutionName: "Mahanama College",
-		degree: "GCE Advanced Level",
-		duration: "2022",
-		highlights: [
-			"Completed my Advanced Level at Mahanama College",
-		],
-	};
-
 	return (
 		<div id="education" className="w-full lg:h-screen p-2">
 			<div
@@ -32,11 +15,13 @@ const Education = () => {
 				<h2 className="py-4">Where I&apos;ve Studied</h2>
 				<div className="mt-2">
 					<BasicTabs
-						tabList={["SLIIT", "Mahanama College"]}
-						tabPanel={[
-							<EducationDetails key={"SLIIT"} educationDetails={sliitEducation} />,
-                            <EducationDetails key={"Mahanama College"} educationDetails={schoolEducation} />,
-						]}
+						tabList={education.map(edu => edu.key)}
+						tabPanel={education.map(edu => (
+							<EducationDetails 
+								key={edu.key} 
+								educationDetails={edu} 
+							/>
+						))}
 					/>
 				</div>
 			</div>

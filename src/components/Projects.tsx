@@ -15,7 +15,7 @@ const Projects = () => {
 								<ProjectItem
 									title={project.name}
 									backgroundImg={project.image}
-									projectUrl={project.projectUrl}
+									projectId={project.id}
 									tech={project.tech}
 								/>
 							</div>

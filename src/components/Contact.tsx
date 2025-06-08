@@ -1,237 +1,337 @@
-import Image from "next/image";
-import Link from "next/link";
-import React, { FormEvent, useState } from "react";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { BsFillPersonLinesFill } from "react-icons/bs";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
-import { HiOutlineChevronDoubleUp } from "react-icons/hi";
-import { RotateLoader } from "react-spinners";
-import emailjs from "@emailjs/browser";
-import { emConfig } from "src/utils/constants";
-import CustomModal from "./Modals";
-
-const override = {
-	display: "block",
-	margin: "0 auto",
-	borderColor: "#44A8B3",
-};
-
-const Loader = ({ loading }: { loading: boolean }) => {
-	return (
-		<div className="fixed inset-0 w-full lg:h-screen flex items-center justify-center z-40">
-			<RotateLoader
-				color={"#44A8B3"}
-				className="scale-[150%]"
-				loading={loading}
-				cssOverride={override}
-				size={18}
-				aria-label="Loading Spinner"
-				data-testid="loader"
-			/>
-		</div>
-	);
-};
-const SuccessMsg = ({
-	showSuccessMsg,
-	setShowSuccessMsg,
-}: {
-	showSuccessMsg: boolean;
-	setShowSuccessMsg: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-	return (
-		<>
-			<CustomModal
-				isOpen={showSuccessMsg}
-				setIsOpen={setShowSuccessMsg}
-				title="Email Sent"
-				width="700px"
-				isLoader={false}
-			>
-				<div>
-					<img className="scale-75" src="/assets/success.gif" id="spinner" alt="spinner" />
-				</div>
-				<h3 className="text-center mt-2">Your message has been sent successfully</h3>
-			</CustomModal>
-		</>
-	);
-};
+import React, { useState, useRef } from 'react';
+import {
+	Mail,
+	Phone,
+	MapPin,
+	Send,
+	Linkedin,
+	Github,
+	FileText,
+	CheckCircle,
+	ArrowUp,
+	User,
+	MessageSquare,
+	Calendar
+} from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [subject, setSubject] = useState("");
-	const [message, setMessage] = useState("");
+	const [formData, setFormData] = useState({
+		name: '',
+		email: '',
+		subject: '',
+		message: ''
+	});
 	const [loading, setLoading] = useState(false);
-	const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+	const [showSuccess, setShowSuccess] = useState(false);
+	const [errors, setErrors] = useState<{ [key: string]: string }>({});
+	const formRef = useRef(null);
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const EMAILJS_CONFIG = {
+		SERVICE_ID: 'service_ljfr49s',
+		TEMPLATE_ID: 'template_5bpbclg',
+		PUBLIC_KEY: '26mO2wmEZDTbVnEfX'
+	};
+	emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+
+	const validateForm = () => {
+		const newErrors: { [key: string]: string } = {};
+
+		if (!formData.name.trim()) {
+			newErrors.name = 'Name is required';
+		}
+
+		if (!formData.email.trim()) {
+			newErrors.email = 'Email is required';
+		} else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+			newErrors.email = 'Please enter a valid email';
+		}
+
+		if (!formData.subject.trim()) {
+			newErrors.subject = 'Subject is required';
+		}
+
+		if (!formData.message.trim()) {
+			newErrors.message = 'Message is required';
+		} else if (formData.message.trim().length < 10) {
+			newErrors.message = 'Message must be at least 10 characters';
+		}
+
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
+	};
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		const { name, value } = e.target;
+		setFormData(prev => ({
+			...prev,
+			[name]: value
+		}));
+
+		if (errors[name as keyof typeof errors]) {
+			setErrors(prev => ({
+				...prev,
+				[name]: ''
+			}));
+		}
+	};
+
+	const handleSubmit = async () => {
+		if (!validateForm()) return;
+
 		setLoading(true);
-		const templateParams = {
-			name,
-			email,
-			subject,
-			message,
-		};
-		// emailjs.send(emConfig.serviceID, emConfig.templateID, templateParams, emConfig.publicID);
-		setTimeout(() => {
+
+		try {
+			const emailParams = {
+				from_name: formData.name,
+				from_email: formData.email,
+				subject: formData.subject,
+				message: formData.message,
+				to_email: 'madusankaishan13@gmail.com',
+				reply_to: formData.email
+			};
+
+			const response = await emailjs.send(
+				EMAILJS_CONFIG.SERVICE_ID,
+				EMAILJS_CONFIG.TEMPLATE_ID,
+				emailParams
+			);
+
+			if (response.status === 200) {
+				setLoading(false);
+				setShowSuccess(true);
+				setFormData({ name: '', email: '', subject: '', message: '' });
+				setErrors({});
+
+				setTimeout(() => {
+					setShowSuccess(false);
+				}, 5000);
+			}
+		} catch (error) {
 			setLoading(false);
-			setShowSuccessMsg(true);
-			setTimeout(() => {
-				setShowSuccessMsg(false);
-			}, 4000);
-		}, 1500);
+			console.error('Email sending failed:', error);
+
+			alert('Failed to send message. Please try again or contact me directly.');
+		}
+	};
+
+	const scrollToTop = () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
 	return (
-		<>
-			<div id="contact" className="w-full lg:h-screen">
-				<div
-					className="max-w-[1240px] m-auto px-2 py-16 w-full"
-					data-aos="fade-left"
-					data-aos-duration="1500"
-				>
-					<p className="text-xl tracking-widest uppercase text-primary">Contact</p>
-					<h2 className="py-4">Get In Touch</h2>
-					<div className="grid lg:grid-cols-5 gap-8">
-						{/* left */}
-						<div
-							className="col-span-3 lg:col-span-2 w-full h-full shadow-xl shadow-gray-400 rounded-xl p-4"
-							data-aos="flip-left"
-							data-aos-duration="1000"
-						>
-							<div className="lg:p-4 h-full ">
-								<div>
-									<Image
-										className="rounded-xl hover:scale-105 ease-in duration-300"
-										src="/assets/contact.jpg"
-										width={1000}
-										height={800}
-										alt="/"
-										loading="lazy"
-									/>
-								</div>
-								<div>
-									<h2 className="py-2">Ishan Madusanka</h2>
-									<p className="text-xl mt-2">Software Engineer</p>
-								</div>
-								<div>
-									<div className="flex justify-between items-center mt-8">
-										<p className="uppercase text-lg">Connect With Me</p>
-										<AiOutlineArrowRight className="text-xl" />
-									</div>
-									<div className="flex items-center justify-between py-4">
-										<a
-											href="https://www.linkedin.com/in/ishan-madusanka-b4b2a5256/"
-											target="_blank"
-											rel="noreferrer"
-										>
-											<div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in hover:bg-secondary duration-300">
-												<FaLinkedinIn title="Linkedin" />
-											</div>
-										</a>
-										<a
-											href="https://github.com/IshanMadusanka13"
-											target="_blank"
-											rel="noreferrer"
-										>
-											<div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in hover:bg-secondary duration-300">
-												<FaGithub title="GitHub" />
-											</div>
-										</a>
+		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-16 px-4">
+			<div className="max-w-7xl mx-auto">
+				<div className="text-center mb-16">
+					<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+						Let's Work Together
+					</h2>
+					<p className="text-xl text-gray-600 max-w-2xl mx-auto">
+						Have a project in mind? I'd love to hear about it. Let's discuss how we can bring your ideas to life.
+					</p>
+				</div>
 
-										<Link href="/resume">
-											<a>
-												<div className="rounded-full shadow-lg shadow-gray-400 p-6 cursor-pointer hover:scale-110 ease-in hover:bg-secondary duration-300">
-													<BsFillPersonLinesFill title="Resume" />
-												</div>
-											</a>
-										</Link>
+				<div className="grid lg:grid-cols-3 gap-12">
+					<div className="lg:col-span-1">
+						<div className="bg-white rounded-2xl shadow-xl p-8 h-fit sticky top-8">
+							<div className="text-center mb-8">
+								<div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+									<User className="w-12 h-12 text-white" />
+								</div>
+								<h3 className="text-2xl font-bold text-gray-900 mb-2">Ishan Madusanka</h3>
+								<p className="text-gray-600 text-lg">Full Stack Developer</p>
+							</div>
+
+							<div className="space-y-6 mb-8">
+								<div className="flex items-center space-x-4">
+									<div className="bg-blue-100 p-3 rounded-lg">
+										<Mail className="w-5 h-5 text-blue-600" />
+									</div>
+									<div>
+										<p className="text-sm text-gray-500">Email</p>
+										<p className="text-gray-900 font-medium">madusankaishan13@gmail.com</p>
+									</div>
+								</div>
+
+								<div className="flex items-center space-x-4">
+									<div className="bg-purple-100 p-3 rounded-lg">
+										<MapPin className="w-5 h-5 text-purple-600" />
+									</div>
+									<div>
+										<p className="text-sm text-gray-500">Location</p>
+										<p className="text-gray-900 font-medium">Colombo, Sri Lanka</p>
 									</div>
 								</div>
 							</div>
-						</div>
 
-						{/* right */}
-						<div
-							className="col-span-3 w-full h-auto shadow-xl shadow-gray-400 rounded-xl lg:p-4"
-							data-aos="flip-right"
-							data-aos-duration="1000"
-						>
-							<div className="p-4">
-								<form onSubmit={(e) => handleSubmit(e)} noValidate>
-									<div className="flex flex-col py-2">
-										<label htmlFor="name" className="uppercase text-sm py-2">
-											Name
-										</label>
-										<input
-											id="name"
-											className="border-2 rounded-lg p-3 flex border-gray-300 focus:outline-primary"
-											type="text"
-											name="name"
-											autoComplete="on"
-											onChange={(e) => setName(e.target.value)}
-										/>
-									</div>
-									<div className="flex flex-col py-2">
-										<label htmlFor="email" className="uppercase text-sm py-2">
-											Email
-										</label>
-										<input
-											id="email"
-											className="border-2 rounded-lg p-3 flex border-gray-300 focus:outline-primary"
-											type="email"
-											name="email"
-											autoComplete="on"
-											onChange={(e) => setEmail(e.target.value)}
-										/>
-									</div>
-									<div className="flex flex-col py-2">
-										<label htmlFor="subject" className="uppercase text-sm py-2">
-											Subject
-										</label>
-										<input
-											id="subject"
-											className="border-2 rounded-lg p-3 flex border-gray-300 focus:outline-primary"
-											type="text"
-											name="subject"
-											autoComplete="off"
-											onChange={(e) => setSubject(e.target.value)}
-										/>
-									</div>
-									<div className="flex flex-col py-2">
-										<label htmlFor="message" className="uppercase text-sm py-2">
-											Message
-										</label>
-										<textarea
-											id="message"
-											className="border-2 rounded-lg p-3 border-gray-300 resize-none focus:outline-primary"
-											rows={10}
-											name="message"
-											autoComplete="off"
-											onChange={(e) => setMessage(e.target.value)}
-										></textarea>
-									</div>
-									<button className="w-full p-4 text-gray-100 mt-4">Send Message</button>
-								</form>
+							<div className="border-t pt-8">
+								<p className="text-sm text-gray-500 mb-4 text-center">Connect with me</p>
+								<div className="flex justify-center space-x-4">
+									<a
+										href="https://linkedin.com/in/ishan-madusanka"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition-all duration-300 hover:scale-110"
+									>
+										<Linkedin className="w-5 h-5" />
+									</a>
+									<a
+										href="https://github.com/IshanMadusanka13"
+										target="_blank"
+										rel="noopener noreferrer"
+										className="bg-gray-800 hover:bg-gray-900 text-white p-3 rounded-lg transition-all duration-300 hover:scale-110"
+									>
+										<Github className="w-5 h-5" />
+									</a>
+									<a
+										href="/resume"
+										className="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg transition-all duration-300 hover:scale-110"
+									>
+										<FileText className="w-5 h-5" />
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div className="flex justify-center py-12">
-						<Link href="/">
-							<a>
-								<div className="rounded-full shadow-lg shadow-gray-400 p-4 cursor-pointer hover:scale-110 ease-in duration-300">
-									<HiOutlineChevronDoubleUp className="text-primary" size={30} />
+
+					<div className="lg:col-span-2">
+						<div className="bg-white rounded-2xl shadow-xl p-8">
+							<div className="mb-8">
+								<h3 className="text-3xl font-bold text-gray-900 mb-2">Send Message</h3>
+								<p className="text-gray-600">I'll get back to you within shortly</p>
+							</div>
+
+							<div className="space-y-6">
+								<div className="grid md:grid-cols-2 gap-6">
+									<div>
+										<label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+											Full Name *
+										</label>
+										<input
+											type="text"
+											id="name"
+											name="name"
+											value={formData.name}
+											onChange={handleInputChange}
+											className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.name ? 'border-red-500' : 'border-gray-300'
+												}`}
+											placeholder="Your full name"
+										/>
+										{errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+									</div>
+
+									<div>
+										<label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+											Email Address *
+										</label>
+										<input
+											type="email"
+											id="email"
+											name="email"
+											value={formData.email}
+											onChange={handleInputChange}
+											className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
+												}`}
+											placeholder="your.email@example.com"
+										/>
+										{errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+									</div>
 								</div>
-							</a>
-						</Link>
+
+								<div>
+									<label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+										Subject *
+									</label>
+									<input
+										type="text"
+										id="subject"
+										name="subject"
+										value={formData.subject}
+										onChange={handleInputChange}
+										className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.subject ? 'border-red-500' : 'border-gray-300'
+											}`}
+										placeholder="What's this about?"
+									/>
+									{errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+								</div>
+
+								<div>
+									<label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+										Message *
+									</label>
+									<textarea
+										id="message"
+										name="message"
+										value={formData.message}
+										onChange={handleInputChange}
+										rows={6}
+										className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${errors.message ? 'border-red-500' : 'border-gray-300'
+											}`}
+										placeholder="Tell me about your project or idea..."
+									/>
+									{errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+								</div>
+
+								<button
+									onClick={handleSubmit}
+									disabled={loading}
+									className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+								>
+									{loading ? (
+										<>
+											<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+											<span>Sending...</span>
+										</>
+									) : (
+										<>
+											<Send className="w-5 h-5" />
+											<span>Send Message</span>
+										</>
+									)}
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
+
+				<div className="flex justify-center mt-16">
+					<button
+						onClick={scrollToTop}
+						className="bg-white shadow-lg hover:shadow-xl p-4 rounded-full transition-all duration-300 hover:scale-110"
+					>
+						<ArrowUp className="w-6 h-6 text-gray-600" />
+					</button>
+				</div>
 			</div>
-			{loading && <Loader loading={loading} />}
-			{showSuccessMsg && <SuccessMsg showSuccessMsg={showSuccessMsg} setShowSuccessMsg={setShowSuccessMsg} />}
-		</>
+
+			{showSuccess && (
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+					<div className="bg-white rounded-2xl p-8 max-w-md w-full text-center">
+						<div className="mb-6">
+							<CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+							<h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
+							<p className="text-gray-600">
+								Thank you for reaching out. I'll get back to you within 24 hours.
+							</p>
+						</div>
+						<button
+							onClick={() => setShowSuccess(false)}
+							className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			)}
+
+			{loading && (
+				<div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-40">
+					<div className="bg-white p-8 rounded-2xl shadow-xl">
+						<div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+						<p className="text-gray-600 mt-4 text-center">Sending your message...</p>
+					</div>
+				</div>
+			)}
+		</div>
 	);
 };
-
 export default Contact;

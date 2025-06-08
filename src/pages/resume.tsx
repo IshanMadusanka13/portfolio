@@ -40,7 +40,7 @@ const Resume = () => {
 					<h2 className="text-center">Ishan Madusanka</h2>
 					<div className="flex">
 						<a
-							href="https://www.linkedin.com/in/ishan-madusanka-b4b2a5256/"
+							href="https://www.linkedin.com/in/ishan-madusanka/"
 							target="_blank"
 							rel="noreferrer"
 						>

@@ -15,8 +15,8 @@ const Main = () => {
 						</h1>
 						<h1 className="py-2 text-gray-700">A Software Engineer</h1>
 						<p className="py-4 text-gray-600 sm:max-w-[70%] m-auto text-lg">
-							I&#39;m focused on building stunning responsive front-end web applications
-							integrating back-end technologies.
+							I&#39;m focused on building stunning full-stack web applications
+							integrating modern technologies.
 						</p>
 					</div>
 
@@ -24,7 +24,7 @@ const Main = () => {
 					<div data-aos="fade-right" data-aos-duration="1000">
 						<div className="flex items-center justify-between max-w-[330px] m-auto py-4">
 							<a
-								href="https://www.linkedin.com/in/ishan-madusanka-b4b2a5256/"
+								href="https://www.linkedin.com/in/ishan-madusanka/"
 								target="_blank"
 								rel="noreferrer"
 							>
