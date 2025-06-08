@@ -39,7 +39,7 @@ npm run dev
 ```
 
 ### 🌐 Live Preview
-👉 [Live View](https://ishan.vercel.com)
+👉 [Live View](https://ishan-zeta.vercel.app/)
 
 ---
 
