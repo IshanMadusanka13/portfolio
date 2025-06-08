@@ -14,6 +14,7 @@ import {
 	Calendar
 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import Link from 'next/link';
 
 const Contact = () => {
 	const [formData, setFormData] = useState({
@@ -123,10 +124,10 @@ const Contact = () => {
 			<div className="max-w-7xl mx-auto">
 				<div className="text-center mb-16">
 					<h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-						Let's Work Together
+						Lets Work Together
 					</h2>
 					<p className="text-xl text-gray-600 max-w-2xl mx-auto">
-						Have a project in mind? I'd love to hear about it. Let's discuss how we can bring your ideas to life.
+						Have a project in mind? Id love to hear about it. Lets discuss how we can bring your ideas to life.
 					</p>
 				</div>
 
@@ -182,12 +183,12 @@ const Contact = () => {
 									>
 										<Github className="w-5 h-5" />
 									</a>
-									<a
+									<Link
 										href="/resume"
 										className="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-lg transition-all duration-300 hover:scale-110"
 									>
 										<FileText className="w-5 h-5" />
-									</a>
+									</Link>
 								</div>
 							</div>
 						</div>
@@ -197,7 +198,7 @@ const Contact = () => {
 						<div className="bg-white rounded-2xl shadow-xl p-8">
 							<div className="mb-8">
 								<h3 className="text-3xl font-bold text-gray-900 mb-2">Send Message</h3>
-								<p className="text-gray-600">I'll get back to you within shortly</p>
+								<p className="text-gray-600">I will get back to you within shortly</p>
 							</div>
 
 							<div className="space-y-6">
@@ -310,7 +311,7 @@ const Contact = () => {
 							<CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
 							<h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
 							<p className="text-gray-600">
-								Thank you for reaching out. I'll get back to you within 24 hours.
+								Thank you for reaching out. I will get back to you shortly.
 							</p>
 						</div>
 						<button

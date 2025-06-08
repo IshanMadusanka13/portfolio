@@ -34,7 +34,7 @@ const ProjectDetail = () => {
             <RiEyeLine className="w-12 h-12 text-red-500" />
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-4">Project Not Found</h1>
-          <p className="text-gray-600 mb-8">The project you're looking for doesn't exist or has been removed.</p>
+          <p className="text-gray-600 mb-8">The project you are looking for does not exist or has been removed.</p>
           <Link href="/#projects">
             <button className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
               <RiArrowLeftLine className="w-5 h-5" />
